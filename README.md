@@ -32,7 +32,7 @@ Open your terminal and navigate to the folder where you want to save the project
 Clone the repository:
 
 ```bash
-git clone https://github.com/DevUp-Umbb-Club/Event-Management-Website
+git clone https://github.com/DevUp-Umbb-Club/Event-Management-Website-Back
 ```
 Navigate to the project directory:
 
