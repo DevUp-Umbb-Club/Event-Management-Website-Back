@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema(
   {
@@ -61,7 +62,22 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
+  return bcrypt.compare(String(candidatePassword), String(this.password));
 };
+
+// Method to login user
+userSchema.statics.login= async function (email,password){
+  const user= await this.findOne({email}).select('+password');
+  if(user){
+    const auth= await bcrypt.compare(String(password),String(user.password));
+    if(auth){
+      return user;
+    }
+    throw Error('Incorrect password');
+
+  }
+  throw Error('Incorrect email');
+
+}
 
 module.exports = mongoose.model('User', userSchema);
